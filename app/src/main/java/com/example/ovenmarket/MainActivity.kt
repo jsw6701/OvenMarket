@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         replaceFragment(myPageFragment)
 
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+        bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.myPage -> replaceFragment(myPageFragment)
             }
