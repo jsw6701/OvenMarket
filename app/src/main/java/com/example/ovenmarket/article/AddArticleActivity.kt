@@ -1,33 +1,28 @@
-package com.example.ovenmarket.mypage
+package com.example.ovenmarket.article
 
-
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.example.ovenmarket.DBKey.Companion.DB_USER
+import com.example.ovenmarket.DBKey.Companion.DB_ARTICLES
 import com.example.ovenmarket.R
-import com.example.ovenmarket.model.User
+import com.example.ovenmarket.model.ArticleModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import java.util.*
 
+class AddArticleActivity: AppCompatActivity() {
 
-class UpdateMypage : AppCompatActivity(){
     private var selectedUri: Uri? = null
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -37,17 +32,15 @@ class UpdateMypage : AppCompatActivity(){
         Firebase.storage
     }
 
-    private val UserDB: DatabaseReference by lazy {
-        Firebase.database.reference.child(DB_USER)
+    private val articleDB: DatabaseReference by lazy {
+        Firebase.database.reference.child(DB_ARTICLES)
     }
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update_user)
+        setContentView(R.layout.activity_add_article)
 
         findViewById<Button>(R.id.imageAddButton).setOnClickListener {
-            Toast.makeText(this, "클릭했습니다.", Toast.LENGTH_SHORT).show()
             when {
                 ContextCompat.checkSelfPermission(
                     this,
@@ -56,23 +49,22 @@ class UpdateMypage : AppCompatActivity(){
                     startContentProvider()
                 }
                 shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                    Toast.makeText(this, "허가 알림 떠야겠지?.", Toast.LENGTH_SHORT).show()
                     showPermissionContextPopup()
                 }
 
                 else -> {
-                    Toast.makeText(this, "허가가 안떴는뎅?.", Toast.LENGTH_SHORT).show()
                     requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
                 }
             }
         }
 
         findViewById<Button>(R.id.submitButton).setOnClickListener {
-            val name = findViewById<EditText>(R.id.titleEditText).text.toString()
-            val email = auth.currentUser?.email.orEmpty()
+            val title = findViewById<EditText>(R.id.titleEditText).text.toString()
+            val price = findViewById<EditText>(R.id.priceEditText).text.toString()
+            val sellerId = auth.currentUser?.uid.orEmpty()
 
-            if (name.isEmpty() || email.isEmpty()) {
-                Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            if (title.isEmpty() || price.isEmpty()) {
+                Toast.makeText(this, "제목 및 가격 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -82,7 +74,7 @@ class UpdateMypage : AppCompatActivity(){
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->
-                        uploadUser(name, email, uri)
+                        uploadArticle(sellerId, title, price, uri)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
@@ -90,19 +82,19 @@ class UpdateMypage : AppCompatActivity(){
                     }
                 )
             } else {
-                uploadUser(name, email, "")
+                uploadArticle(sellerId, title, price, "")
             }
 
         }
-
     }
+
     private fun uploadPhoto(uri: Uri, successHandler: (String) -> Unit, errorHandler: () -> Unit) {
         val fileName = "${System.currentTimeMillis()}.png"
-        storage.reference.child("user/photo").child(fileName)
+        storage.reference.child("article/photo").child(fileName)
             .putFile(uri)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    storage.reference.child("user/photo").child(fileName).downloadUrl
+                    storage.reference.child("article/photo").child(fileName).downloadUrl
                         .addOnSuccessListener { uri ->
                             successHandler(uri.toString())
                         }.addOnFailureListener {
@@ -115,11 +107,11 @@ class UpdateMypage : AppCompatActivity(){
 
     }
 
-    private fun uploadUser(name: String, email: String, imageUrl: String) {
-        val model = User(name, email, imageUrl)
-        UserDB.push().setValue(model)
+    private fun uploadArticle(sellerId: String, title: String, price: String, imageUrl: String) {
+        val model = ArticleModel(sellerId, title, System.currentTimeMillis(), price, imageUrl)
+        articleDB.push().setValue(model)
         hideProgress()
-        Toast.makeText(this, "유저가 등록되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "아이템이 등록되었습니다.", Toast.LENGTH_SHORT).show()
         finish()
     }
 
@@ -132,8 +124,10 @@ class UpdateMypage : AppCompatActivity(){
 
         when (requestCode) {
             1010 -> {
-                if (grantResults.isNotEmpty() || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startContentProvider()
+                } else {
+                    Toast.makeText(this, "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -178,9 +172,9 @@ class UpdateMypage : AppCompatActivity(){
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다.")
             .setMessage("사진을 가져오기 위해 필요합니다.")
-            .setPositiveButton("동의") { _, _ ->
+            .setPositiveButton("동의", {_, _ ->
                 requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
-            }
+            })
             .create()
             .show()
     }

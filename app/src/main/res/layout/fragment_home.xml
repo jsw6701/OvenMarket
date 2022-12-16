@@ -46,8 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="@color/theme_color"
         android:src="@drawable/ic_baseline_add_24"
+        app:fabCustomSize="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />

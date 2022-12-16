@@ -3,7 +3,7 @@ package com.example.ovenmarket
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.ovenmarket.mypage.UpdateFragment
+import com.example.ovenmarket.home.HomeFragment
 import com.example.ovenmarket.mypage.MyPageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val updateFragment = UpdateFragment()
+        val homeFragment = HomeFragment()
         val myPageFragment = MyPageFragment()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> replaceFragment(updateFragment)
+                R.id.home -> replaceFragment(homeFragment)
                 R.id.myPage -> replaceFragment(myPageFragment)
             }
             true
