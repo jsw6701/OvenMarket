@@ -10,20 +10,20 @@
         android:id="@+id/nameEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="368dp"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageEdit" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
@@ -31,40 +31,28 @@
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="416dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
     <Button
         android:id="@+id/signInOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:backgroundTint="@color/theme_color"
         android:enabled="false"
         android:text="로그인"
         app:layout_constraintEnd_toEndOf="@id/passwordEditText"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
-    <Button
-        android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/theme_color"
-        android:enabled="false"
-        android:text="회원가입"
-        app:layout_constraintEnd_toStartOf="@id/signInOutButton"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
-
     <ImageView
         android:id="@+id/imageEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_width="409dp"
+        android:layout_height="310dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

@@ -31,7 +31,6 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
                 val image = binding.imageEdit
 
                 if (auth.currentUser == null) {
-
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(requireActivity()) { task ->
                             if (task.isSuccessful) {
@@ -52,27 +51,8 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
 
                     binding.signInOutButton.text = "로그인"
                     binding.signInOutButton.isEnabled = false
-                    binding.signUpButton.isEnabled = false
                     Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
                 }
-
-            }
-        }
-
-        fragmentMypageBinding.signUpButton.setOnClickListener {
-            binding?.let { binding ->
-                val email = binding.emailEditText.text.toString()
-                val password = binding.passwordEditText.text.toString()
-
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(requireActivity()) { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(context, "회원가입에 성공했습니다. 로그인 버튼을 눌러주세요.", Toast.LENGTH_SHORT).show()
-                            auth.signOut()
-                        } else {
-                            Toast.makeText(context, "회원가입에 실패했습니다. 이미 가입한 이메일일 수 있습니다.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
             }
         }
 
@@ -80,14 +60,12 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
             binding?.let { binding ->
                 val enable = binding.emailEditText.text.isNotEmpty() && binding.passwordEditText.text.isNotEmpty()
                 binding.signInOutButton.isEnabled = enable
-                binding.signUpButton.isEnabled = enable
             }
         }
 
         fragmentMypageBinding.passwordEditText.addTextChangedListener {
             binding?.let { binding ->
                 val enable = binding.emailEditText.text.isNotEmpty() && binding.passwordEditText.text.isNotEmpty()
-                binding.signUpButton.isEnabled = enable
                 binding.signInOutButton.isEnabled = enable
             }
         }
@@ -95,7 +73,6 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
 
     override fun onStart() {
         super.onStart()
-
         if (auth.currentUser == null) {
             binding?.let { binding ->
                 binding.emailEditText.text.clear()
@@ -105,18 +82,18 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
 
                 binding.signInOutButton.text = "로그인"
                 binding.signInOutButton.isEnabled = false
-                binding.signUpButton.isEnabled = false
             }
         } else {
             binding?.let { binding ->
+                binding.nameEditText.setText(auth.currentUser?.displayName)
                 binding.emailEditText.setText(auth.currentUser?.email)
                 binding.passwordEditText.setText("**********")
+                binding.imageEdit.setImageURI(auth.currentUser?.photoUrl)
                 binding.emailEditText.isEnabled = false
                 binding.passwordEditText.isEnabled = false
 
                 binding.signInOutButton.text = "로그아웃"
                 binding.signInOutButton.isEnabled = true
-                binding.signUpButton.isEnabled = false
             }
         }
     }
@@ -128,9 +105,7 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
         }
         binding?.emailEditText?.isEnabled = false
         binding?.passwordEditText?.isEnabled = false
-        binding?.signUpButton?.isEnabled = false
         binding?.signInOutButton?.text = "로그아웃"
         Toast.makeText(context, "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show()
-
     }
 }
