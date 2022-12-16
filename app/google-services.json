@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "84537370272",
+    "firebase_url": "https://ovenmarket-ae220-default-rtdb.firebaseio.com",
     "project_id": "ovenmarket-ae220",
     "storage_bucket": "ovenmarket-ae220.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "84537370272-mmg96l8pcg89e1jvn5tgsshj1fo7ng5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ovenmarket",
+            "certificate_hash": "8e978b6cbfb1ebb603ea33af8df2fda7514ac683"
+          }
+        },
         {
           "client_id": "84537370272-t2mhucc1rj6t4l5m5k1fil32qe15676i.apps.googleusercontent.com",
           "client_type": 1,
