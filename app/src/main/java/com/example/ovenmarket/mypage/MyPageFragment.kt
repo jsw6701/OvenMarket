@@ -25,8 +25,10 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
 
         fragmentMypageBinding.signInOutButton.setOnClickListener {
             binding?.let { binding ->
+                val name = binding.nameEditText.text.toString()
                 val email = binding.emailEditText.text.toString()
                 val password = binding.passwordEditText.text.toString()
+                val image = binding.imageEdit
 
                 if (auth.currentUser == null) {
 
@@ -41,6 +43,8 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
 
                 } else {
                     auth.signOut()
+                    binding.nameEditText.text.clear()
+                    binding.nameEditText.isEnabled = true
                     binding.emailEditText.text.clear()
                     binding.emailEditText.isEnabled = true
                     binding.passwordEditText.text.clear()
