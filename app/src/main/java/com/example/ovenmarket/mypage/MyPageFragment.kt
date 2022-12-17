@@ -5,11 +5,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.ovenmarket.R
 import com.example.ovenmarket.databinding.FragmentMypageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+
 
 class MyPageFragment: Fragment(R.layout.fragment_mypage){
 
@@ -88,6 +90,11 @@ class MyPageFragment: Fragment(R.layout.fragment_mypage){
                 binding.nameEditText.setText(auth.currentUser?.displayName)
                 binding.emailEditText.setText(auth.currentUser?.email)
                 binding.passwordEditText.setText("**********")
+                if (auth.currentUser?.photoUrl != null) {
+                    Glide.with(binding.imageEdit)
+                        .load(auth.currentUser?.photoUrl)
+                        .into(binding.imageEdit)
+                }
                 binding.imageEdit.setImageURI(auth.currentUser?.photoUrl)
                 binding.emailEditText.isEnabled = false
                 binding.passwordEditText.isEnabled = false
