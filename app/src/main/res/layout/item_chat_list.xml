@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="13dp"
-    android:background="#F5F5DC"
+    android:background="#F4F5F6"
     android:paddingVertical="13dp">
 
     <LinearLayout
@@ -14,17 +14,19 @@
 
         <ImageView
             android:id="@+id/articleView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="68dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
             android:layout_weight="0"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/chatRoomTitleTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="194dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
-            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/gothicbold"
             android:textColor="@color/black"
             android:textSize="20sp" />
