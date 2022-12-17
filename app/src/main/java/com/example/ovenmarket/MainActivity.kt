@@ -3,6 +3,7 @@ package com.example.ovenmarket
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.ovenmarket.chatlist.ChatListFragment
 import com.example.ovenmarket.home.HomeFragment
 import com.example.ovenmarket.mypage.MyPageFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val homeFragment = HomeFragment()
         val myPageFragment = MyPageFragment()
+        val chatListFragment = ChatListFragment()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.home -> replaceFragment(homeFragment)
                 R.id.myPage -> replaceFragment(myPageFragment)
+                R.id.chatList -> replaceFragment(chatListFragment)
             }
             true
         }

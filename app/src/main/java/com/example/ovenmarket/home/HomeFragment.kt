@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ovenmarket.DBKey.Companion.CHILD_CHAT
 import com.example.ovenmarket.DBKey.Companion.DB_ARTICLES
 import com.example.ovenmarket.DBKey.Companion.DB_USER
 import com.example.ovenmarket.R
 import com.example.ovenmarket.article.AddArticleActivity
 import com.example.ovenmarket.article.ArticleAdapter
+import com.example.ovenmarket.model.ChatListItem
 import com.example.ovenmarket.databinding.FragmentHomeBinding
 import com.example.ovenmarket.model.ArticleModel
 import com.google.android.material.snackbar.Snackbar
@@ -64,7 +66,28 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         userDB = Firebase.database.reference.child(DB_USER)
         articleAdapter = ArticleAdapter(onItemClicked = { articleModel ->
             if (auth.currentUser != null) {
-                if (auth.currentUser?.uid == articleModel.sellerId) {
+                if (auth.currentUser?.uid != articleModel.sellerId) {
+
+                    val chatRoom = ChatListItem(
+                        buyerId = auth.currentUser!!.uid,
+                        sellerId = articleModel.sellerId,
+                        itemTitle = articleModel.title,
+                        key = System.currentTimeMillis()
+                    )
+
+                    userDB.child(auth.currentUser!!.uid)
+                        .child(CHILD_CHAT)
+                        .push()
+                        .setValue(chatRoom)
+
+                    userDB.child(articleModel.sellerId)
+                        .child(CHILD_CHAT)
+                        .push()
+                        .setValue(chatRoom)
+
+                    Snackbar.make(view, "채팅방이 생성되었습니다. 채팅탭에서 확인해주세요.", Snackbar.LENGTH_LONG).show()
+
+                } else {
                     Snackbar.make(view, "내가 올린 아이템 입니다.", Snackbar.LENGTH_LONG).show()
                 }
             } else {
