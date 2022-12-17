@@ -3,9 +3,10 @@ package com.example.ovenmarket.model
 data class ArticleModel(
     val sellerId: String,
     val title: String,
+    val detail: String,
     val createdAt: Long,
     val price: String,
     val imageURL: String
 ) {
-    constructor(): this("", "", 0, "", "")
+    constructor(): this("", "", "", 0, "", "")
 }
