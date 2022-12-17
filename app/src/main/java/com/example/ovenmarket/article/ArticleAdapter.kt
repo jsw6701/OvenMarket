@@ -58,6 +58,4 @@ class ArticleAdapter(val onItemClicked: (ArticleModel) -> Unit): ListAdapter<Art
 
         }
     }
-
-
 }
