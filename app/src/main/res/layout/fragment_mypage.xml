@@ -53,7 +53,7 @@
     <ImageView
         android:id="@+id/imageEdit"
         android:layout_width="409dp"
-        android:layout_height="310dp"
+        android:layout_height="280dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
