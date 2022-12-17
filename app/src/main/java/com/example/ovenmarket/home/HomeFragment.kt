@@ -69,6 +69,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
                 if (auth.currentUser?.uid != articleModel.sellerId) {
 
                     val chatRoom = ChatListItem(
+                        profileImageUrl = articleModel.imageURL.toString(),
                         buyerId = auth.currentUser!!.uid,
                         sellerId = articleModel.sellerId,
                         itemTitle = articleModel.title,
